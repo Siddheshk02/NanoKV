@@ -1,6 +1,8 @@
 package main
 
 import (
+	"time"
+
 	"github.com/Siddheshk02/NanoKV/kvstore"
 	"github.com/gofiber/fiber/v2"
 )
@@ -11,7 +13,7 @@ func main() {
 	kv := kvstore.NewKeyValueStore()
 
 	app.Get("/", func(c *fiber.Ctx) error {
-		return c.SendString("This is a Simple Key-Value store in Go.")
+		return c.SendString("This is a Simple Key-Value store like Redis in Go.")
 	})
 
 	app.Get("/get/:key", func(c *fiber.Ctx) error {
@@ -30,7 +32,7 @@ func main() {
 		key := c.Params("key")
 		value := c.Params("value")
 
-		kv.Set(key, value)
+		kv.Set(key, value, 10*time.Minute)
 
 		return c.SendString("Key " + key + " Value " + value)
 	})
